@@ -1,0 +1,27 @@
+<%- include('../partials/header.ejs') %>
+
+<%- include('../partials/navbar.ejs') %>
+<div class="container">
+    <form>
+        <div class="row mb-3 mt-4">
+            <div class="col-4">
+                <label for="wName">Name</label>
+            </div>
+            <div class="col-8">
+                <input type="text" class="form-control" name="wName" id="wName" placeholder="Product Warehouse Name">
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-4">
+                <label for="warehouse_desc">Description</label>
+            </div>
+            <div class="col-8">
+                <input type="text" class="form-control" name="warehouse_desc" id="warehouse_desc" placeholder="Product Warehouse Description">
+            </div>
+        </div>
+        <button style="float: right;" id="warehouseSubmitBtn" type="submit" class="btn btn-success mb-3">Add</button>
+    </form>
+</div>
+
+<script src="../../assets/js/jquery-3.5.1.min.js"></script>
+<%- include('../partials/footer.ejs') %>

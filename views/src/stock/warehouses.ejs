@@ -1,0 +1,25 @@
+<%- include('../partials/header.ejs') %>
+
+<%- include('../partials/navbar.ejs') %>
+<div class="container">
+    <h3 class="mt-4">Warehouses  <a href="addNewWarehouse.ejs" style="margin-left:6px;" class="btn btn-success">Add new</a></h3>
+    
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Total Products</th>
+            <th scope="col">Stock Quantity</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody id="productCatagoryList">
+        </tbody>
+      </table>
+    
+</div>
+
+
+<script src="../../assets/js/jquery-3.5.1.min.js"></script>
+<%- include('../partials/footer.ejs') %>

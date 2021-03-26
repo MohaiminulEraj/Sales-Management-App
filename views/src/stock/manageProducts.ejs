@@ -1,0 +1,27 @@
+<%- include('../partials/header.ejs') %>
+
+<%- include('../partials/navbar.ejs') %>
+
+<h1>Manage Products</h1>
+
+<table class="container table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Name</th>
+      <th scope="col">Qty</th>
+      <th scope="col">Category</th>
+      <th scope="col">Warehouse</th>
+      <th scope="col">Price</th>
+      <th scope="col">Settings</th>
+    </tr>
+  </thead>
+  <tbody id="productList">
+  </tbody>
+</table>
+
+
+<script src="../../assets/js/jquery-3.5.1.min.js"></script>
+<!-- <script src="manageProduct.js"></script> -->
+<script src="products.js"></script>
+<%- include('../partials/footer.ejs') %>

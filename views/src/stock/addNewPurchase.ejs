@@ -1,0 +1,235 @@
+<%- include('../partials/header.ejs') %>
+
+<%- include('../partials/navbar.ejs') %>
+<div class="container">
+    <label class="mt-4 mb-3">Bill Form <a href="addNewSupplier.ejs" style="margin-left:6px;" class="btn btn-success">Add
+        Supplier</a> </label>
+    <form>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="row mb-3">
+                    <div class="col-sm-12 mb-3">
+                        <label for="searchSupplier">Search Supplier</label>
+                        <input class="form-control" type="search" name="" id="searchSupplier" placeholder="Search...">
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-sm-12">
+                        <label>Supplier Details</label>
+                        <hr>
+                        <ul class="row list-unstyled" id="list">
+                            <li>Client Name</li>
+                            <li>Client Info</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-sm-12">
+                        <label for="product_warehouseId">Warehouse</label>
+                    </div>
+                    <div class="col-sm-12">
+                        <select class="form-control" name="product_warehouse" id="product_warehouseId" required>
+                            <option value="" selected disabled>Select</option>
+                            <option value="Bangladesh">Bangladesh</option>
+                            <option value="USA">USA</option>
+                            <option value="UK">UK</option>
+                            <option value="Japan">Japan</option>
+                            <option value="Main Warehouse">Main Warehouse</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-sm-6">
+                <div class="col-sm-12">
+                    <label><strong>Purchase Order</strong></label>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-sm-6">
+                        <label for="invoiceNo">Invoice</label>
+                        <input class="form-control" type="text" name="" id="invoiceNo" placeholder="Invoice #">
+                    </div>
+                    <div class="col-sm-6">
+                        <label for="refNo">Reference</label>
+                        <input class="form-control" type="text" name="" id="refNo" placeholder="Reference #">
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-sm-6">
+                        <label for="orderDate">Order Date</label>
+                        <input class="form-control" type="date" name="" id="orderDate">
+                    </div>
+                    <div class="col-sm-6">
+                        <label for="orderDueDate">Order Due Date</label>
+                        <input class="form-control" type="date" name="" id="orderDueDate">
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-sm-6">
+                        <label for="taxId">Tax </label>
+                        <select class="form-control" name="tax" id="taxId" required>
+                            <option value="On">On</option>
+                            <option value="Inclusive">Inclusive</option>
+                            <option value="Off">Off</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-6">
+                        <label for="discountId">Discount </label>
+                        <select class="form-control" name="discount" id="discountId" required>
+                            <option value="Discount After Tax">Discount After Tax</option>
+                            <option value="Discount Before Tax">Discount Before Tax</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-sm-12">
+                        <textarea class="form-control" name="notes" id="" cols="30" rows="4"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <table class="table-responsive tfr my_stripe">
+                <thead>
+                    <tr class="item_header bg-gradient-directional-amber">
+                        <th width="30%" class="text-center">Item Name</th>
+                        <th width="8%" class="text-center"> Quantity</th>
+                        <th width="10%" class="text-center">Rate</th>
+                        <th width="10%" class="text-center">Tax(%)</th>
+                        <th width="10%" class="text-center">Tax</th>
+                        <th width="7%" class="text-center"> Discount</th>
+                        <th width="10%" class="text-center">
+                            Amount ($)
+                        </th>
+                        <th width="5%" class="text-center"> Action</th>
+                    </tr>
+                </thead>
+                <tbody id="addProductRow">
+                    <tr>
+                        <td><input type="text" class="form-control text-center" name="product_name[]"
+                                placeholder="Enter Product name or Code" id='productname-0'>
+                        </td>
+                        <td><input type="text" class="form-control req amnt" name="product_qty[]" id="amount-0"
+                                onkeypress="return isNumber(event)" onkeyup="rowTotal('0'), billUpyog()"
+                                autocomplete="off" value="1"></td>
+                        <td><input type="text" class="form-control req prc" name="product_price[]" id="price-0"
+                                onkeypress="return isNumber(event)" onkeyup="rowTotal('0'), billUpyog()"
+                                autocomplete="off"></td>
+                        <td><input type="text" class="form-control vat " name="product_tax[]" id="vat-0"
+                                onkeypress="return isNumber(event)" onkeyup="rowTotal('0'), billUpyog()"
+                                autocomplete="off"></td>
+                        <td class="text-center" id="texttaxa-0">0</td>
+                        <td><input type="text" class="form-control discount" name="product_discount[]"
+                                onkeypress="return isNumber(event)" id="discount-0" onkeyup="rowTotal('0'), billUpyog()"
+                                autocomplete="off"></td>
+                        <td><span class="currenty">$</span>
+                            <strong><span class='ttlText' id="result-0">0</span></strong></td>
+                        <td class="text-center">
+
+                        </td>
+                        <input type="hidden" name="taxa[]" id="taxa-0" value="0">
+                        <input type="hidden" name="disca[]" id="disca-0" value="0">
+                        <input type="hidden" class="ttInput" name="product_subtotal[]" id="total-0" value="0">
+                        <input type="hidden" class="pdIn" name="pid[]" id="pid-0" value="0">
+                        <input type="hidden" name="unit[]" id="unit-0" value=""><input type="hidden" name="hsn[]"
+                            id="hsn-0" value="">
+                    </tr>
+                    <tr>
+                        <td colspan="8"><textarea id="dpid-0" class="form-control" name="product_description[]"
+                                placeholder="Enter Product description" autocomplete="off"></textarea><br></td>
+                    </tr>
+                    <!-- break -->
+
+                    </tbody>
+                    <tbody>
+                    <tr class="last-item-row">
+                        <td class="add-row">
+                            <button type="button" class="btn btn-success" aria-label="Left Align" id="addproduct">Add Row</button>
+                        </td>
+                        <td colspan="7"></td>
+                    </tr>
+
+                    <tr class="sub_c" style="display: table-row;">
+                        <td colspan="6" align="right"><input type="hidden" value="0" id="subttlform"
+                                name="subtotal"><strong> Total Tax</strong>
+                        </td>
+                        <td align="left" colspan="2"><span class="currenty lightMode">$</span>
+                            <span id="taxr" class="lightMode">0</span></td>
+                    </tr>
+                    <tr class="sub_c" style="display: table-row;">
+                        <td colspan="6" align="right">
+                            <strong> Total Discount</strong></td>
+                        <td align="left" colspan="2"><span class="currenty lightMode">$</span>
+                            <span id="discs" class="lightMode">0</span></td>
+                    </tr>
+
+                    <tr class="sub_c" style="display: table-row;">
+                        <td colspan="6" align="right">
+                            <strong> Shipping</strong></td>
+                        <td align="left" colspan="2"><input type="text" class="form-control shipVal"
+                                onkeypress="return isNumber(event)" placeholder="Value" name="shipping"
+                                autocomplete="off" onkeyup="billUpyog();">
+                            ( Tax $ <span id="ship_final">0</span> )
+                        </td>
+                    </tr>
+
+                    <tr class="sub_c" style="display: table-row;">
+                        <td colspan="2">Payment Currency for your client <small>based on live market</small>
+                            <select name="mcurrency" class="selectpicker form-control">
+                                <option selected disabled>Select Currency</option>
+                                <option value="৳ (BDT)">৳ (BDT)</option>
+                                <!-- <option value="1">£ (GBP)</option>
+                                <option value="2">BTC (BTC)</option>
+                                <option value="3">₹ (INR)</option>
+                                <option value="4">Rp (idr)</option>
+                                <option value="5">Rs. (Rup)</option> -->
+                            </select></td>
+                        <td colspan="4" align="right"><strong> Grand Total (<span
+                                    class="currenty lightMode">$</span>)</strong>
+                        </td>
+                        <td align="left" colspan="2"><input type="text" name="total" class="form-control"
+                                id="invoiceyoghtml" readonly="">
+
+                        </td>
+                    </tr>
+                    <tr class="sub_c" style="display: table-row;">
+                        <td colspan="2"> Payment Terms <select name="pterms" class="selectpicker form-control">
+                                <option value="1">Payment On Receipt</option>
+                            </select></td>
+                        <td colspan="2">
+                            <div>
+                                <label>Update Stock</label>
+                                <fieldset class="right-radio">
+                                    <div class="custom-control custom-radio">
+                                        <input type="radio" class="custom-control-input" name="update_stock"
+                                            id="customRadioRight1" value="yes" checked="">
+                                        <label class="custom-control-label" for="customRadioRight1">Yes</label>
+                                    </div>
+                                </fieldset>
+                                <fieldset class="right-radio">
+                                    <div class="custom-control custom-radio">
+                                        <input type="radio" class="custom-control-input" name="update_stock"
+                                            id="customRadioRight2" value="no">
+                                        <label class="custom-control-label" for="customRadioRight2">No</label>
+                                    </div>
+                                </fieldset>
+
+                            </div>
+                        </td>
+                        <td align="right" colspan="4"><input type="submit" class="btn btn-success sub-btn"
+                                value="Generate Order" id="submit-data" data-loading-text="Creating...">
+
+                        </td>
+                    </tr>
+
+
+                </tbody>
+            </table>
+        </div>
+    </form>
+</div>
+
+<script src="../../assets/js/jquery-3.5.1.min.js"></script>
+<script src="purchaseOrder.js"></script>
+<%- include('../partials/footer.ejs') %>

@@ -1,0 +1,377 @@
+<%- include('../partials/header.ejs') %>
+
+<%- include('../partials/navbar.ejs') %>
+
+<h1>New POS Invoice</h1>
+
+
+<form id="data_form" class="content-body">
+    <div class="sidebar-left sidebar-fixed bg-white">
+        <div class="sidebar">
+            <div class="sidebar-content ">
+                <div class="card-body chat-fixed-search">
+
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1"><i class="ft-search"></i></span>
+                        </div>
+                        <input type="text" class="form-control" id="pos-customer-box"
+                            placeholder="Enter Customer Name or Mobile Number to search"
+                            aria-describedby="button-addon2">
+                        <div class="input-group-append" id="button-addon2">
+                            <button class="btn btn-primary" type="button" data-toggle="modal"
+                                data-target="#Pos_addCustomer"> Add</button>
+                        </div>
+                    </div>
+                    <div id="customer-box-result" class="col-md-12"></div>
+                    <div id="customer" class="col-md-12 ml-3">
+                        <div class="clientinfo">
+
+                            <input type="hidden" name="customer_id" id="customer_id" value="1">
+                            <div id="customer_name">Default: <strong>Walk
+                                    In </strong></div>
+                        </div>
+
+
+                    </div>
+
+                </div>
+                <div>
+                    <div class="users-list-padding media-list">
+
+                        <br>
+                        <div class="row bg-gradient-directional-purple white m-0 pt-1 pb-1">
+                            <div class="col-6 ">
+                                <i class="fa fa-briefcase"></i>
+                                Products</th>
+                            </div>
+                            <div class="col-3">
+                                <i class="fa fa-money"></i> Price </div>
+                            <div class="col-3">
+                                <i class="fa fa-shopping-bag"></i> Total </div>
+                        </div>
+                        <div id="saman-pos2">
+                            <div id="pos_items"></div>
+                        </div>
+                        <input type="hidden" name="total" class="form-control" id="invoiceyoghtml" readonly="">
+                        <hr class="mt-1">
+                        <div class="row m-2">
+                            <div class="col-3">
+                                <strong> Shipping</strong>
+                            </div>
+                            <div class="col-3">
+                                <input type="text" class="form-control form-control-sm shipVal"
+                                    onkeypress="return isNumber(event)" placeholder="Value" name="shipping"
+                                    autocomplete="off" onkeyup="billUpyog()">
+                            </div>
+                            <div class="col-3">
+                                ( Tax $ <span id="ship_final">0</span> )
+                            </div>
+                        </div>
+
+
+                        <div class="row m-2">
+                            <div class="col-3">
+                                <strong> Total Tax</strong>
+                            </div>
+                            <div class="col-3">$ <span id="taxr" class="mr-1">0</span>
+                            </div>
+                        </div>
+                        <div class="row m-2">
+                            <div class="col-3">
+                                <strong> Total Discount</strong>
+                            </div>
+                            <div class="col-9">$ <span id="discs" class="lightMode mr-1">0</span>
+                                <small>(Products)</small>
+                            </div>
+                        </div>
+                        <div class="row m-2">
+                            <div class="col-3">
+                                <strong> Grand Total</strong>
+                            </div>
+                            <div class="col-9">$ <span class="font-medium-1 blue text-bold-600"
+                                    id="bigtotal">0.00</span>
+                            </div>
+                        </div>
+                        <div class="row m-2">
+                            <div class="col-3">
+                                <strong> Extra Discount</strong>
+                            </div>
+                            <div class="col-3">
+                                <input type="text" class="form-control form-control-sm discVal"
+                                    onkeypress="return isNumber(event)" placeholder="Value" value="0" name="disc_val"
+                                    autocomplete="off" onkeyup="billUpyog()">
+                                <input type="hidden" name="after_disc" id="after_disc" value="0">
+                            </div>
+                            <div class="col-3">
+                                ( $ <span id="disc_final">0</span> )
+                            </div>
+                        </div>
+
+
+                        <hr>
+                        <div class="m-1">
+
+                            <ul class="nav nav-tabs" role="tablist">
+                                <li class="nav-item">
+                                    <a class="btn btn-outline-primary  mr-1 mb-1" id="base-tab1" data-toggle="tab"
+                                        aria-controls="tab1" href="#tab1" role="tab" aria-selected="false"><i
+                                            class="fa fa-trophy"></i>
+                                        Coupon</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="btn btn-outline-secondary mr-1 mb-1" id="base-tab2" data-toggle="tab"
+                                        aria-controls="tab2" href="#tab2" role="tab" aria-selected="false"><i
+                                            class="icon-handbag"></i>
+                                        POS Settings</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="btn btn-outline-danger  mr-1 mb-1" id="base-tab3" data-toggle="tab"
+                                        aria-controls="tab3" href="#tab3" role="tab" aria-selected="false"><i
+                                            class="fa fa-save"></i> Draft(s)</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="btn btn-outline-success mb-1" id="base-tab4" data-toggle="tab"
+                                        aria-controls="tab4" href="#tab4" role="tab" aria-selected="false"><i
+                                            class="fa fa-cogs"></i>
+                                        Invoice Properties</a>
+                                </li>
+                            </ul>
+                            <div class="tab-content px-1 pt-1">
+                                <div class="tab-pane" id="tab1" role="tabpanel" aria-labelledby="base-tab1">
+                                    <div class="input-group">
+
+                                        <input type="text" class="form-control" id="coupon" name="coupon"><input
+                                            type="hidden" name="coupon_amount" id="coupon_amount" value="0"><span
+                                            class="input-group-addon round"> <input type="button"
+                                                class="apply_couponc btn btn-small btn-primary sub-btn"
+                                                value="Apply"></span>
+
+
+                                    </div>
+                                    <input type="hidden" class="text-info" name="i_coupon" id="i_coupon" value="">
+                                    <span class="text-primary text-bold-600" id="r_coupon"></span>
+                                </div>
+                                <div class="tab-pane" id="tab2" role="tabpanel" aria-labelledby="base-tab2">
+                                    <div class="row">
+                                        <div class="col-4 blue text-xs-center">Warehouse <select id="v2_warehouses"
+                                                class="selectpicker form-control round teal">
+                                                <option value="0">*All</option>
+                                                <option value="0">All</option>
+                                                <option value="1">Main WareHouse</option>
+                                                <option value="2">France</option>
+                                                <option value="3">China</option>
+                                                <option value="4">Croatia</option>
+                                                <option value="5">Albania</option>
+                                                <option value="6">Bulgaria</option>
+                                                <option value="7">Japan</option>
+                                                <option value="8">Guatemala</option>
+                                                <option value="9">USA</option>
+                                                <option value="10">UK</option>
+                                                <option value="11">USA</option>
+                                            </select></div>
+                                        <div class="col-4 blue text-xs-center">Tax <select class="form-control round"
+                                                onchange="changeTaxFormat(this.value)" id="taxformat">
+                                                <option value="yes" data-tformat="yes" selected>&raquo;On</option>
+                                                <option value="yes" data-tformat="yes">On</option>
+                                                <option value="inclusive" data-tformat="incl">Inclusive</option>
+                                                <option value="off" data-tformat="off">Off</option>
+                                                <option value="yes" data-tformat="cgst">CGST + SGST</option>
+                                                <option value="yes" data-tformat="igst">IGST</option>
+                                                <option value="inclusive" data-tformat="inclusive" data-trate="10">
+                                                    Custom 10% Inclusive</option>
+                                                <option value="yes" data-tformat="cgst" data-trate="12">CGST 6% + SGST
+                                                    6% Exclusive</option>
+                                                <option value="yes" data-tformat="yes" data-trate="20">VAT 20% Exclusive
+                                                </option>
+                                            </select></div>
+                                        <div class="col-4 blue text-xs-center"> Discount <select
+                                                class="form-control round teal"
+                                                onchange="changeDiscountFormat(this.value)" id="discountFormat">
+
+                                                <option value="%">--% Discount After TAX--</option>
+                                                <option value="%"> % Discount After TAX</option>
+                                                <option value="flat">Flat Discount After TAX</option>
+                                                <option value="b_p"> % Discount Before TAX</option>
+                                                <option value="bflat">Flat Discount Before TAX</option>
+                                            </select></div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane" id="tab3" role="tabpanel" aria-labelledby="base-tab3">
+                                    <li class="indigo p-1"><a
+                                            href="https://pos.ultimatekode.com/pos_invoices/draft?id=1"> #1025
+                                            (2021-03-07)</a></li>
+                                </div>
+                                <div class="tab-pane" id="tab4" role="tabpanel" aria-labelledby="base-tab4">
+                                    <div class="form-group row">
+                                        <div class="col-sm-3"><label for="invocieno" class="caption">Invoice
+                                                Number</label>
+
+                                            <div class="input-group">
+                                                <div class="input-group-addon"><span class="icon-file-text-o"
+                                                        aria-hidden="true"></span>
+                                                </div>
+                                                <input type="text" class="form-control" placeholder="Invoice #"
+                                                    name="invocieno" id="invocieno" value="1026">
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3"><label for="invocieno" class="caption">Reference</label>
+
+                                            <div class="input-group">
+                                                <div class="input-group-addon"><span class="icon-bookmark-o"
+                                                        aria-hidden="true"></span>
+                                                </div>
+                                                <input type="text" class="form-control" placeholder="Reference #"
+                                                    name="refer">
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-sm-3"><label for="invociedate" class="caption">Invoice
+                                                Date</label>
+
+                                            <div class="input-group">
+                                                <div class="input-group-addon"><span class="icon-calendar4"
+                                                        aria-hidden="true"></span>
+                                                </div>
+                                                <input type="text" class="form-control required"
+                                                    placeholder="Billing Date" name="invoicedate"
+                                                    data-toggle="datepicker" autocomplete="false">
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3"><label for="invocieduedate" class="caption">Invoice Due
+                                                Date</label>
+
+                                            <div class="input-group">
+                                                <div class="input-group-addon"><span class="icon-calendar-o"
+                                                        aria-hidden="true"></span>
+                                                </div>
+                                                <input type="text" class="form-control required" id="tsn_due"
+                                                    name="invocieduedate" placeholder="Due Date"
+                                                    data-toggle="datepicker" autocomplete="false">
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group row">
+                                        <div class="col-sm-6">
+                                            Payment Terms <select name="pterms" class="selectpicker form-control">
+                                                <option value="1">Payment On Receipt</option>
+                                            </select>
+                                            Payment Currency for your client <select name="mcurrency"
+                                                class="selectpicker form-control">
+                                                <option value="0">Default</option>
+                                                <option value="1">£ (GBP)</option>
+                                                <option value="2">BTC (BTC)</option>
+                                                <option value="3">₹ (INR)</option>
+                                                <option value="4">৳ (BDT)</option>
+                                            </select> </div>
+                                        <div class="col-sm-6">
+                                            <label for="toAddInfo" class="caption">Invoice Note</label>
+                                            <textarea class="form-control" name="notes" rows="2"></textarea>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="content-right">
+        <div class="content-wrapper">
+            <div class="content-header row">
+            </div>
+            <div class="content-body">
+                <section class="chat-app-window">
+                    <div class="row ">
+
+
+                        <div class="col-sm-9">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <i class="fa fa-barcode p-0"></i>&nbsp;<input type="checkbox"
+                                            aria-label="Enable BarCode" value="1" id="bar_only">
+                                    </div>
+                                </div>
+                                <input type="text" class="form-control text-center round mousetrap"
+                                    name="product_barcode" placeholder="Enter Product name, code or scan barcode"
+                                    id="v2_search_bar" autocomplete="off" autofocus="autofocus">
+                            </div>
+
+
+                        </div>
+                        <div class="col-md-3  grey text-xs-center"><select id="v2_categories"
+                                class="selectpicker form-control round teal">
+                                <option value="0">All</option>
+                                <option value='12'>Shoes</option>
+                                <option value='11'>Home</option>
+                                <option value='10'>Automotive</option>
+                                <option value='9'>Tools</option>
+                                <option value='8'>Music</option>
+                                <option value='7'>Home</option>
+                                <option value='6'>Automotive</option>
+                                <option value='5'>Toys</option>
+                                <option value='4'>Home</option>
+                                <option value='3'>Computers</option>
+                                <option value='2'>Health</option>
+                                <option value='1'>General</option>
+                            </select></div>
+
+
+                    </div>
+                    <hr class="white">
+
+
+                    <div class="row m-0">
+                        <div class="col-md-12 pt-0 " id="pos_item">
+                            <!-- pos items -->
+                        </div>
+                    </div>
+                </section>
+                <section class="chat-app-form">
+                    <div class="form-group text-center">
+                        <!-- Button Group with Icons in different sizes -->
+                        <div class="btn-group btn-group-lg" role="group">
+                            <button type="button" class="possubmit btn btn-warning"><i class="fa fa-save"></i> Draft
+                            </button>
+                            <button type="button" class="btn btn-success possubmit3" data-type="6" data-toggle="modal"
+                                data-target="#basicPay"><i class="fa fa-money"></i> Payment </button> <button
+                                type="button" class="btn btn-primary possubmit2" data-type="4" data-toggle="modal"
+                                data-target="#cardPay"><i class="fa fa-credit-card"></i> Card </button>
+
+                        </div>
+                        <!-- <a href="https://pos.ultimatekode.com/stockreturn/create_client" class="red float-right"><i
+                                class="fa fa-reply-all"></i></a> -->
+                    </div>
+
+
+                </section>
+            </div>
+        </div>
+    </div>
+    <input type="hidden" value="pos_invoices/action" id="action-url">
+    <input type="hidden" value="0" id="subttlform" name="subtotal">
+    <input type="hidden" value="search" id="billtype">
+    <input type="hidden" value="0" name="counter" id="ganak">
+    <input type="hidden" value="0" id="custom_discount">
+    <input type="hidden" value="$" name="currency">
+    <input type="hidden" value="%" name="taxformat" id="tax_format">
+    <input type="hidden" value="yes" name="tax_handle" id="tax_status">
+    <input type="hidden" value="yes" name="applyDiscount" id="discount_handle">
+    <input type="hidden" value="%" name="discountFormat" id="discount_format">
+    <input type="hidden" value="10.00" name="shipRate" id="ship_rate">
+    <input type="hidden" value="incl" name="ship_taxtype" id="ship_taxtype">
+    <input type="hidden" value="0" name="ship_tax" id="ship_tax">
+</form>
+
+<script src="../../assets/js/jquery-3.5.1.min.js"></script>
+<%- include('../partials/footer.ejs') %>

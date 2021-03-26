@@ -1,0 +1,200 @@
+<%- include('../partials/header.ejs') %>
+
+<%- include('../partials/navbar.ejs') %>
+
+<form id="productForm" style="margin-top: 26px;" class="container" enctype="multipart/form-data">
+    <div class="row mb-3">
+        <div class="col">
+            <h4>Edit Product</h4>
+            <hr>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col">
+            <label for="pNameId">Product Name* </label>
+            <input type="text" id="pNameId" class="form-control" placeholder="Product Name" name="pName" required>
+        </div>
+        <div class="col">
+            <label for="pCodeId">Product Code </label>
+            <input type="text" id="pCodeId" class="form-control" placeholder="Product Code" name="pCode">
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col">
+            <label for="product_catId">Product Category* </label>
+            <select class="form-control" name="product_cat" id="product_catId" required>
+                <option value="General">General</option>
+                <option value="Health">Health</option>
+                <option value="Computer">Computer</option>
+                <option value="Home">Home</option>
+                <option value="Toys">Toys</option>
+                <option value="Automotive">Automotive</option>
+                <option value="Music">Music</option>
+                <option value="Tools">Tools</option>
+            </select>
+        </div>
+        <div class="col">
+            <label for="product_subcatId">Product SubCategory </label>
+            <input id="product_subcatId" type="text" class="form-control" name="product_subcat">
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-8">
+            <label for="product_warehouseId">Warehouse* </label>
+            <select class="form-control" name="product_warehouse" id="product_warehouseId" required>
+                <option value="USA">USA</option>
+                <option value="UK">UK</option>
+                <option value="Japan">Japan</option>
+                <option value="Bangladesh">Bangladesh</option>
+                <option value="Main Warehouse">Main Warehouse</option>
+            </select>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col">
+            <label for="product_retail_priceId">Product Retail Price*</label>
+            <input type="number" name="product_retail_price" class="form-control" id="product_retail_priceId" min="0"
+                step=".01" placeholder="0.00" required>
+        </div>
+        <div class="col">
+            <label for="product_order_priceId">Product Order Price</label>
+            <input type="number" name="product_order_price" class="form-control" id="product_order_priceId" min="0"
+                step=".01" placeholder="0.00">
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col">
+            <input type="number" name="default_tax_rate" class="form-control" id="default_tax_rateId" min="0" step=".01"
+                placeholder="Default TAX Rate in Percentage">
+            <small>You can change the Tax rate during invoice creation</small>
+        </div>
+        <div class="col">
+            <input type="number" name="default_discount_rate" class="form-control" id="default_discount_rateId" min="0"
+                step=".01" placeholder="Default Discount Rate in Percentage">
+            <small>You can change the Discount rate during invoice creation</small>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col">
+            <input type="number" name="product_qty" class="form-control" id="product_qtyId" min="0"
+                placeholder="Stock Units*" required>
+        </div>
+        <div class="col">
+            <input type="number" name="product_qty_alert" class="form-control" id="product_qty_alertId" min="0"
+                placeholder="Alert Quantity">
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-8">
+            <label for="unitId">Measurement Unit* </label>
+            <select class="form-control" name="unit" id="unitId" required>
+                <option value="Kg">Kg - Kg</option>
+                <option value="Pc">Pc - Pc</option>
+                <option value="Box">Box - Box</option>
+                <option value="Unit">Unit - Unit</option>
+                <option value="Size">Size - Size</option>
+            </select>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-2">
+            <label for="code_typeId">BarCode </label>
+        </div>
+        <div class="col-4">
+            <select class="form-control" name="code_type" id="code_typeId" required>
+                <option value="EAN13">EAN13 - Default</option>
+                <option value="UPC">UPC</option>
+                <option value="EAN8">EAN8</option>
+                <option value="ISSN">ISSN</option>
+                <option value="ISBN">ISBN</option>
+            </select>
+        </div>
+        <div class="col-6">
+            <input type="number" id="code_type_valId" name="code_type_val" class="form-control"
+                placeholder="Bar Code Numeric Digit">
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-8">
+            <label for="product_descId">Description </label>
+            <textarea class="form-control" name="product_desc" id="product_descId"></textarea>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col">
+            <label for="expiry_dateId">Valid (To Date) </label>
+            <input id="expiry_dateId" class="form-control required" name="expiry_date" type="date">
+        </div>
+        <div class="col">
+            <label for="product_imgId">Image </label>
+            <input id="product_imgId" name="product_img" class="form-control" type="file" accept="image/*">
+        </div>
+    </div>
+
+    <button style="float: right;" id="editProductBtn" type="submit" class="btn btn-outline-success mb-3">Edit
+        Product</button>
+</form>
+
+<!-- <table class="container table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Name</th>
+        <th scope="col">Qty</th>
+        <th scope="col">Category</th>
+        <th scope="col">Warehouse</th>
+        <th scope="col">Price</th>
+        <th scope="col">Settings</th>
+      </tr>
+    </thead>
+    <tbody id="productList">
+    </tbody>
+  </table> -->
+
+<script src="../../assets/js/jquery-3.5.1.min.js"></script>
+
+<!-- <script src="manageProduct.js"></script> -->
+<script src="products.js"></script>
+<script>
+    displaySingleProduct();
+
+    document.getElementById("editProductBtn").addEventListener("click", function (e) {
+
+        // e.preventDefault();
+        console.log(product_img.files.length);
+        const product = {
+            pName: pName.value,
+            pCode: pCode.value,
+            product_cat: product_cat.value,
+            product_subcat: product_subcat.value,
+            product_warehouse: product_warehouse.value,
+            product_retail_price: product_retail_price.value,
+            product_order_price: product_order_price.value,
+            default_tax_rate: default_tax_rate.value,
+            default_discount_rate: default_discount_rate.value,
+            product_qty: product_qty.value,
+            product_qty_alert: product_qty_alert.value,
+            unit: unit.value,
+            code_type: code_type.value,
+            code_type_val: code_type_val.value,
+            product_desc: product_desc.value,
+            expiry_date: expiry_date.value,
+            product_img: (product_img.files.length != 0) && product_img.files[0].path
+        };
+
+
+        if (product.length > 0) {
+            alert("Thank You");
+        }
+        let data = JSON.parse(localStorage.getItem('singleProduct'));
+        idProductToUpdate = data._id;
+        ipcRenderer.send("update-product", {
+            ...product,
+            idProductToUpdate
+        });
+        localStorage.setItem('singleProduct', JSON.stringify(product));
+        // productForm.reset();
+    });
+</script>
+<!-- <script src="addNewProduct.js"></script> -->
+<%- include('../partials/footer.ejs') %>
